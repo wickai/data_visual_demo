@@ -77,6 +77,54 @@ npm run dev
 The frontend application will be available at `http://localhost:5173`
 The backend API will be available at `http://localhost:8000`
 
+## Docker Deployment (Recommended)
+
+### Quick Start
+
+1. **Clone the repository**:
+```bash
+git clone YOUR_REPO_URL
+cd AIBUILD_data_visual
+```
+
+2. **Make the deployment script executable**:
+```bash
+chmod +x deploy.sh
+```
+
+3. **Run the deployment script**:
+```bash
+./deploy.sh
+```
+
+The script will automatically:
+- Detect your public IP
+- Build Docker images
+- Start frontend and backend services
+- Display access URLs
+
+### Manual Docker Commands
+
+```bash
+# Build and start services
+docker-compose up --build -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+
+# Restart services
+docker-compose restart
+```
+
+### Access Points
+
+- **Frontend**: `http://YOUR_IP:5173`
+- **Backend API**: `http://YOUR_IP:8000`
+- **API Documentation**: `http://YOUR_IP:8000/docs`
+
 ## Features
 
 - **User Authentication**: Secure login system
