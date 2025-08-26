@@ -24,7 +24,7 @@ A full-stack data visualization application for inventory management and analyti
 
 ### Backend Setup
 
-Navigate to the backend directory and run the development script:
+1. Navigate to the backend directory and run the development script:
 
 ```bash
 cd backend && sh dev.sh
@@ -34,6 +34,26 @@ This will:
 - Install Python dependencies
 - Initialize the database
 - Start the FastAPI development server
+
+2. **Manual Setup** (if needed):
+
+If you prefer to set up the backend manually:
+
+```bash
+# Navigate to backend directory
+cd backend
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Initialize the database
+python -m src.scripts.init_db
+
+# Start the server
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
+
+This will create the database tables and set up the initial schema.
 
 ### Frontend Setup
 
