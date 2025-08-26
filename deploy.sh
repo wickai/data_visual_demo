@@ -19,7 +19,7 @@ fi
 PUBLIC_IP=$(curl -s ifconfig.me)
 if [ -z "$PUBLIC_IP" ]; then
     echo "⚠️  无法获取公网IP，使用默认配置"
-    PUBLIC_IP="202.112.47.35"
+    PUBLIC_IP="127.0.0.1"
 fi
 
 echo "🌐 检测到公网IP: $PUBLIC_IP"

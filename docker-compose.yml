@@ -1,4 +1,4 @@
-version: '3.8'
+# version: '3.8'
 
 services:
   backend:
@@ -12,7 +12,7 @@ services:
       - PYTHONPATH=/app
       - DATABASE_URL=sqlite:///./inventory.db
     volumes:
-      - ./backend/inventory.db:/app/inventory.db
+      # - ./backend/inventory.db:/app/inventory.db
       - ./backend/uploaded_files:/app/uploaded_files
     restart: unless-stopped
     healthcheck:
