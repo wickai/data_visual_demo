@@ -38,7 +38,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           <Col xs={24} sm={8}>
             <Card size="small">
               <Statistic
-                title="平均库存"
+                title="Average Inventory"
                 value={avgInventory}
                 prefix={<BarChartOutlined />}
                 valueStyle={{ color: '#1890ff' }}
@@ -48,7 +48,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           <Col xs={24} sm={8}>
             <Card size="small">
               <Statistic
-                title="总采购金额"
+                title="Total Procurement Amount"
                 value={totalProcurement}
                 precision={2}
                 prefix={"$"}
@@ -59,7 +59,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           <Col xs={24} sm={8}>
             <Card size="small">
               <Statistic
-                title="总销售金额"
+                title="Total Sales Amount"
                 value={totalSales}
                 precision={2}
                 prefix={"$"}
@@ -71,19 +71,19 @@ export default function ProductChart({ data, compareMode = false, products = [] 
 
         {/* 图表控制面板 */}
         <Card 
-          title={<><LineChartOutlined /> 数据可视化图表</>} 
+          title={<><LineChartOutlined /> Data Visualization Chart</>} 
           size="small" 
           style={{ marginBottom: '16px' }}
         >
           <Space wrap>
-            <Text strong>显示指标：</Text>
+            <Text strong>Display Metrics:</Text>
             <Button
               type={visibleMetrics.inventory ? "primary" : "default"}
               icon={visibleMetrics.inventory ? <EyeOutlined /> : <EyeInvisibleOutlined />}
               onClick={() => toggleMetric('inventory')}
               size="small"
             >
-              库存
+              Inventory
             </Button>
             <Button
               type={visibleMetrics.procurement ? "primary" : "default"}
@@ -91,7 +91,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
               onClick={() => toggleMetric('procurement')}
               size="small"
             >
-              采购金额
+              Procurement Amount
             </Button>
             <Button
               type={visibleMetrics.sales ? "primary" : "default"}
@@ -99,7 +99,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
               onClick={() => toggleMetric('sales')}
               size="small"
             >
-              销售金额
+              Sales Amount
             </Button>
           </Space>
         </Card>
@@ -112,20 +112,20 @@ export default function ProductChart({ data, compareMode = false, products = [] 
               <XAxis 
                 dataKey="day" 
                 tick={{ fontSize: 12 }}
-                label={{ value: '天数', position: 'insideBottom', offset: -5 }}
+                label={{ value: 'Days', position: 'insideBottom', offset: -5 }}
               />
               <YAxis 
                 tick={{ fontSize: 12 }}
-                label={{ value: '数量/金额', angle: -90, position: 'insideLeft' }}
+                label={{ value: 'Quantity/Amount', angle: -90, position: 'insideLeft' }}
               />
               <Tooltip 
                 formatter={(value, name) => {
-                  if (name === '库存') return [value, '库存数量'];
-                  if (name === '采购金额') return [`$${value.toFixed(2)}`, '采购金额'];
-                  if (name === '销售金额') return [`$${value.toFixed(2)}`, '销售金额'];
+                  if (name === 'Inventory') return [value, 'Inventory Quantity'];
+                  if (name === 'Procurement Amount') return [`$${value.toFixed(2)}`, 'Procurement Amount'];
+                  if (name === 'Sales Amount') return [`$${value.toFixed(2)}`, 'Sales Amount'];
                   return [value, name];
                 }}
-                labelFormatter={(label) => `第 ${label} 天`}
+                labelFormatter={(label) => `Day ${label}`}
               />
               <Legend />
 
@@ -134,7 +134,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                   type="monotone" 
                   dataKey="inventory" 
                   stroke="#1890ff" 
-                  name="库存"
+                  name="Inventory"
                   strokeWidth={3}
                   dot={{ r: 4, fill: '#1890ff' }}
                   activeDot={{ r: 6, fill: '#1890ff' }}
@@ -145,7 +145,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                   type="monotone" 
                   dataKey="procurement" 
                   stroke="#52c41a" 
-                  name="采购金额"
+                  name="Procurement Amount"
                   strokeWidth={3}
                   dot={{ r: 4, fill: '#52c41a' }}
                   activeDot={{ r: 6, fill: '#52c41a' }}
@@ -156,7 +156,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                   type="monotone" 
                   dataKey="sales" 
                   stroke="#fa8c16" 
-                  name="销售金额"
+                  name="Sales Amount"
                   strokeWidth={3}
                   dot={{ r: 4, fill: '#fa8c16' }}
                   activeDot={{ r: 6, fill: '#fa8c16' }}
@@ -177,7 +177,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           <div className="text-center py-12">
             <PieChartOutlined style={{ fontSize: '48px', color: '#d9d9d9', marginBottom: '16px' }} />
             <div>
-              <Text type="secondary" style={{ fontSize: '16px' }}>没有选择对比产品</Text>
+              <Text type="secondary" style={{ fontSize: '16px' }}>No products selected for comparison</Text>
             </div>
           </div>
         </Card>
@@ -207,12 +207,12 @@ export default function ProductChart({ data, compareMode = false, products = [] 
       <div className="w-full">
         {/* 标题和产品标签 */}
         <Card 
-          title={<><BarChartOutlined /> 产品对比分析</>}
+          title={<><BarChartOutlined /> Product Comparison Analysis</>}
           size="small"
           style={{ marginBottom: '16px' }}
         >
           <Space wrap>
-            <Text strong>对比产品：</Text>
+            <Text strong>Comparison Products:</Text>
             {products.map((product, index) => (
               <Tag 
                 key={product.id}
@@ -230,7 +230,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           {/* 库存对比 */}
           <Col xs={24} lg={8}>
             <Card 
-              title={<><BarChartOutlined style={{ color: '#1890ff' }} /> 库存对比</>}
+              title={<><BarChartOutlined style={{ color: '#1890ff' }} /> Inventory Comparison</>}
               size="small"
             >
               <ResponsiveContainer width="100%" height={280}>
@@ -238,7 +238,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                   <CartesianGrid stroke="#f0f0f0" strokeDasharray="2 2" />
                   <XAxis dataKey="day" tick={{ fontSize: 10 }} />
                   <YAxis tick={{ fontSize: 10 }} />
-                  <Tooltip formatter={(value) => [value, '库存数量']} />
+                  <Tooltip formatter={(value) => [value, 'Inventory Quantity']} />
                   <Legend wrapperStyle={{ fontSize: '10px' }} />
                   {products.map((product, index) => {
                     const prefix = `${product.name.substring(0, 10)}...`;
@@ -262,7 +262,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           {/* 采购金额对比 */}
           <Col xs={24} lg={8}>
             <Card 
-              title={<><BarChartOutlined style={{ color: '#52c41a' }} /> 采购金额对比</>}
+              title={<><BarChartOutlined style={{ color: '#52c41a' }} /> Procurement Amount Comparison</>}
               size="small"
             >
               <ResponsiveContainer width="100%" height={280}>
@@ -270,7 +270,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                   <CartesianGrid stroke="#f0f0f0" strokeDasharray="2 2" />
                   <XAxis dataKey="day" tick={{ fontSize: 10 }} />
                   <YAxis tick={{ fontSize: 10 }} />
-                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, '采购金额']} />
+                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Procurement Amount']} />
                   <Legend wrapperStyle={{ fontSize: '10px' }} />
                   {products.map((product, index) => {
                     const prefix = `${product.name.substring(0, 10)}...`;
@@ -294,7 +294,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
           {/* 销售金额对比 */}
           <Col xs={24} lg={8}>
             <Card 
-              title={<><BarChartOutlined style={{ color: '#fa8c16' }} /> 销售金额对比</>}
+              title={<><BarChartOutlined style={{ color: '#fa8c16' }} /> Sales Amount Comparison</>}
               size="small"
             >
               <ResponsiveContainer width="100%" height={280}>
@@ -302,7 +302,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                   <CartesianGrid stroke="#f0f0f0" strokeDasharray="2 2" />
                   <XAxis dataKey="day" tick={{ fontSize: 10 }} />
                   <YAxis tick={{ fontSize: 10 }} />
-                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, '销售金额']} />
+                  <Tooltip formatter={(value) => [`$${value.toFixed(2)}`, 'Sales Amount']} />
                   <Legend wrapperStyle={{ fontSize: '10px' }} />
                   {products.map((product, index) => {
                     const prefix = `${product.name.substring(0, 10)}...`;
@@ -326,7 +326,7 @@ export default function ProductChart({ data, compareMode = false, products = [] 
 
         {/* 产品摘要信息 */}
         <Card 
-          title="对比产品摘要" 
+          title="Comparison Product Summary" 
           size="small" 
           style={{ marginTop: '16px' }}
         >
@@ -351,21 +351,21 @@ export default function ProductChart({ data, compareMode = false, products = [] 
                       </Col>
                       <Col span={8}>
                         <Statistic 
-                          title="数据天数" 
+                          title="Data Days" 
                           value={product.days.length} 
                           valueStyle={{ fontSize: '14px' }}
                         />
                       </Col>
                       <Col span={8}>
                         <Statistic 
-                          title="平均库存" 
+                          title="Avg Inventory" 
                           value={avgInventory} 
                           valueStyle={{ fontSize: '14px', color: '#1890ff' }}
                         />
                       </Col>
                       <Col span={8}>
                         <Statistic 
-                          title="总销售" 
+                          title="Total Sales" 
                           value={totalSales} 
                           precision={0}
                           prefix="$"

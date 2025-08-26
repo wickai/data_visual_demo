@@ -18,7 +18,7 @@ export default function Login({ onLogin }) {
       await login(values.username, values.password);
       onLogin(); // 通知父组件登录成功
     } catch {
-      setError("用户名或密码错误");
+      setError("Invalid username or password");
     } finally {
       setLoading(false);
     }
@@ -62,10 +62,10 @@ export default function Login({ onLogin }) {
             📊
           </div>
           <Title level={2} style={{ margin: '0 0 8px', color: '#1f2937' }}>
-            欢迎回来
+            Welcome Back
           </Title>
           <Text type="secondary">
-            库存数据可视化系统
+            Inventory Data Visualization System
           </Text>
         </div>
 
@@ -95,13 +95,13 @@ export default function Login({ onLogin }) {
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: 'Please enter username!',
               },
             ]}
           >
             <Input
               prefix={<UserOutlined style={{ color: '#9ca3af' }} />}
-              placeholder="用户名"
+              placeholder="Username"
               style={{ borderRadius: '8px' }}
             />
           </Form.Item>
@@ -111,13 +111,13 @@ export default function Login({ onLogin }) {
             rules={[
               {
                 required: true,
-                message: '请输入密码!',
+                message: 'Please enter password!',
               },
             ]}
           >
             <Input.Password
               prefix={<LockOutlined style={{ color: '#9ca3af' }} />}
-              placeholder="密码"
+              placeholder="Password"
               style={{ borderRadius: '8px' }}
             />
           </Form.Item>
@@ -139,7 +139,7 @@ export default function Login({ onLogin }) {
                 fontWeight: '500'
               }}
             >
-              {loading ? '登录中...' : '登录'}
+              {loading ? 'Logging in...' : 'Login'}
             </Button>
           </Form.Item>
         </Form>
@@ -150,10 +150,10 @@ export default function Login({ onLogin }) {
         <div style={{ textAlign: 'center' }}>
           <Space direction="vertical" size={4}>
             <Text type="secondary" style={{ fontSize: '13px' }}>
-              默认管理员账户
+              Default Admin Account
             </Text>
             <Text code style={{ fontSize: '12px' }}>
-              用户名: admin  密码: admin123
+              Username: admin  Password: admin123
             </Text>
           </Space>
         </div>

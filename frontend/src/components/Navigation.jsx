@@ -14,12 +14,12 @@ export default function Navigation({ currentPage, onPageChange, user }) {
     {
       key: 'dashboard',
       icon: <DashboardOutlined />,
-      label: '仪表板',
+      label: 'Dashboard',
     },
     {
       key: 'upload',
       icon: <UploadOutlined />,
-      label: '数据导入',
+      label: 'Data Import',
     },
   ];
 
@@ -36,9 +36,9 @@ export default function Navigation({ currentPage, onPageChange, user }) {
             <span className="text-white text-lg font-bold">📈</span>
           </div>
           <div>
-            <Text strong className="text-lg">库存可视化</Text>
+            <Text strong className="text-lg">Inventory Visualization</Text>
             <br />
-            <Text type="secondary" className="text-xs">数据分析平台</Text>
+            <Text type="secondary" className="text-xs">Data Analytics Platform</Text>
           </div>
         </Space>
       </div>
@@ -76,7 +76,7 @@ export default function Navigation({ currentPage, onPageChange, user }) {
               </Text>
               <br />
               <Text type="secondary" className="text-xs">
-                {user?.email || '用户'}
+                {user?.email || 'User'}
               </Text>
             </div>
           </Space>
@@ -92,7 +92,7 @@ export default function Navigation({ currentPage, onPageChange, user }) {
           onClick={handleLogout}
           className="w-full text-left"
         >
-          退出登录
+          Logout
         </Button>
       </div>
     </div>

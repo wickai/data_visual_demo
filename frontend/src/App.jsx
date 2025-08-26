@@ -117,10 +117,10 @@ function App() {
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    // 重新获取用户信息
+    // Get user information again
     getCurrentUser()
       .then(setUser)
-      .catch(err => console.error('获取用户信息失败:', err));
+      .catch(err => console.error('Failed to get user info:', err));
   };
 
   const handleProductSelection = (productId) => {
@@ -128,7 +128,7 @@ function App() {
       setSelectedProducts(prev => {
         if (prev.includes(productId)) {
           return prev.filter(id => id !== productId);
-        } else if (prev.length < 5) { // 限制最多5个产品对比
+        } else if (prev.length < 5) { // Limit to maximum 5 products comparison
           return [...prev, productId];
         }
         return prev;
@@ -151,7 +151,7 @@ function App() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">加载中...</p>
+          <p className="mt-4 text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -164,9 +164,8 @@ function App() {
   const renderDashboard = () => (
     <div className="p-6">
       <div className="mb-6">
-        {/* <h1 className="text-2xl font-bold mb-4">📊 数据可视化仪表板</h1> */}
         
-        {/* 模式切换按钮 */}
+        {/* Mode Switch Button */}
         <div className="mb-4">
           <button
             onClick={toggleCompareMode}
@@ -176,15 +175,15 @@ function App() {
                 : 'bg-blue-100 text-blue-800 border border-blue-300'
             }`}
           >
-            {compareMode ? '🔄 切换到单产品模式' : '📊 切换到对比模式'}
+            {compareMode ? '🔄 Switch to Single Product Mode' : '📊 Switch to Compare Mode'}
           </button>
         </div>
 
-        {/* 产品选择区域 */}
+        {/* Product Selection Area */}
         <div className="bg-white border rounded-lg p-4 mb-6">
           {compareMode ? (
             <div>
-              <h3 className="text-lg font-semibold mb-3">选择要对比的产品 (最多5个)</h3>
+              <h3 className="text-lg font-semibold mb-3">Select Products to Compare (Max 5)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {products.map((product) => (
                   <label key={product.id} className="flex items-center space-x-2 cursor-pointer">
@@ -205,14 +204,14 @@ function App() {
               </div>
               {selectedProducts.length > 0 && (
                 <div className="mt-3 text-sm text-gray-600">
-                  已选择 {selectedProducts.length} 个产品进行对比
+                  {selectedProducts.length} products selected for comparison
                 </div>
               )}
             </div>
           ) : (
             <div>
               <label htmlFor="product-select" className="block text-sm font-medium text-gray-700 mb-2">
-                选择产品查看详细数据
+                Select Product to View Detailed Data
               </label>
               <select
                 id="product-select"
@@ -220,7 +219,7 @@ function App() {
                 value={selected || ""}
                 onChange={(e) => handleProductSelection(e.target.value)}
               >
-                <option value="">请选择商品</option>
+                <option value="">Please select a product</option>
                 {products.map((p) => (
                   <option key={p.id} value={p.id}>{p.name}</option>
                 ))}
@@ -230,7 +229,7 @@ function App() {
         </div>
       </div>
 
-      {/* 图表显示区域 */}
+      {/* Chart Display Area */}
       <div className="bg-white border rounded-lg p-6">
         {compareMode ? (
           selectedProducts.length > 0 ? (
@@ -242,25 +241,49 @@ function App() {
           ) : (
             <div className="text-center py-12 text-gray-500">
               <div className="text-4xl mb-4">📊</div>
-              <p>请选择要对比的产品</p>
+              <p>Please select products to compare</p>
             </div>
           )
         ) : (
           chartData.length > 0 ? (
             <>
               <h2 className="text-xl font-semibold mb-4">
-                {products.find(p => p.id === selected)?.name || '产品详情'}
+                {products.find(p => p.id === selected)?.name || 'Product Details'}
               </h2>
               <ProductChart data={chartData} compareMode={false} />
             </>
           ) : (
             <div className="text-center py-12 text-gray-500">
               <div className="text-4xl mb-4">📈</div>
-              <p>请选择商品查看数据可视化</p>
+              <p>Please select a product to view data visualization</p>
             </div>
           )
         )}
       </div>
+
+      {/* Data Statistics Summary */}
+      {!compareMode && chartData.length > 0 && (
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-blue-800 mb-1">Average Inventory</h3>
+            <p className="text-2xl font-bold text-blue-900">
+              {Math.round(chartData.reduce((sum, day) => sum + day.inventory, 0) / chartData.length)}
+            </p>
+          </div>
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-green-800 mb-1">Total Procurement Amount</h3>
+            <p className="text-2xl font-bold text-green-900">
+              ${chartData.reduce((sum, day) => sum + day.procurement, 0).toFixed(2)}
+            </p>
+          </div>
+          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
+            <h3 className="text-sm font-medium text-orange-800 mb-1">Total Sales Amount</h3>
+            <p className="text-2xl font-bold text-orange-900">
+              ${chartData.reduce((sum, day) => sum + day.sales, 0).toFixed(2)}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 
@@ -289,11 +312,11 @@ function App() {
           <Header style={headerStyle}>
             <div>
               <h1 className="text-xl font-bold text-gray-900 m-0">
-                {currentPage === 'dashboard' ? '📊 数据可视化仪表板' : '📁 数据导入'}
+                {currentPage === 'dashboard' ? '📊 Data Visualization Dashboard' : '📁 Data Import'}
               </h1>
             </div>
             <div className="text-sm text-gray-600">
-              欢迎, {user?.username || 'User'}
+              Welcome, {user?.username || 'User'}
             </div>
           </Header>
           <Content style={contentStyle}>
@@ -302,7 +325,7 @@ function App() {
             </div>
           </Content>
           <Footer style={footerStyle}>
-            © 2024 数据可视化平台 - 由 AI 助手构建
+            © 2024 Data Visualization Platform - Built with AI Assistant
           </Footer>
         </Layout>
       </Layout>

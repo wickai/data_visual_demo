@@ -37,13 +37,13 @@ export default function ExcelUpload({ onUploadSuccess }) {
                    file.name.endsWith('.xls');
     
     if (!isExcel) {
-      antdMessage.error('请选择Excel文件 (.xlsx 或 .xls)');
+      antdMessage.error('Please select an Excel file (.xlsx or .xls)');
       return Upload.LIST_IGNORE;
     }
     
     const isLt10M = file.size / 1024 / 1024 < 10;
     if (!isLt10M) {
-      antdMessage.error('文件大小不能超过10MB!');
+      antdMessage.error('File size cannot exceed 10MB!');
       return Upload.LIST_IGNORE;
     }
     
@@ -53,7 +53,7 @@ export default function ExcelUpload({ onUploadSuccess }) {
 
   const handleUpload = async () => {
     if (!file) {
-      antdMessage.warning('请先选择文件');
+      antdMessage.warning('Please select a file first');
       return;
     }
 
@@ -63,16 +63,16 @@ export default function ExcelUpload({ onUploadSuccess }) {
     try {
       const response = await uploadExcel(file);
       setResult(response);
-      antdMessage.success('文件上传成功！');
+      antdMessage.success('File uploaded successfully!');
       setFile(null);
       setFileList([]);
       
-      // 调用回调函数刷新产品列表
+      // Call callback function to refresh product list
       if (onUploadSuccess) {
         await onUploadSuccess();
       }
     } catch (error) {
-      antdMessage.error(`上传失败: ${error.message}`);
+      antdMessage.error(`Upload failed: ${error.message}`);
     } finally {
       setUploading(false);
     }
@@ -109,10 +109,10 @@ export default function ExcelUpload({ onUploadSuccess }) {
             }} 
           />
           <Title level={2} style={{ margin: '0 0 8px', color: '#1f2937' }}>
-            Excel 数据导入
+            Excel Data Import
           </Title>
           <Text type="secondary">
-            支持产品库存、采购和销售数据批量导入
+            Support batch import of product inventory, procurement and sales data
           </Text>
         </div>
       </Card>
@@ -121,7 +121,7 @@ export default function ExcelUpload({ onUploadSuccess }) {
         {/* 左侧：上传区域 */}
         <Col xs={24} lg={14}>
           <Card 
-            title={<><UploadOutlined /> 文件上传</>}
+            title={<><UploadOutlined /> File Upload</>}
             style={{ height: '100%' }}
           >
             <Dragger {...uploadProps} style={{ marginBottom: '16px' }}>
@@ -129,11 +129,11 @@ export default function ExcelUpload({ onUploadSuccess }) {
                 <InboxOutlined style={{ fontSize: '48px', color: '#1890ff' }} />
               </p>
               <p className="ant-upload-text">
-                <Text strong>点击或拖拽Excel文件到此区域</Text>
+                <Text strong>Click or drag Excel files to this area</Text>
               </p>
               <p className="ant-upload-hint">
                 <Text type="secondary">
-                  支持 .xlsx 和 .xls 格式，最大文件大小 10MB
+                  Support .xlsx and .xls formats, maximum file size 10MB
                 </Text>
               </p>
             </Dragger>
@@ -152,7 +152,7 @@ export default function ExcelUpload({ onUploadSuccess }) {
                   paddingRight: '32px'
                 }}
               >
-                {uploading ? '上传中...' : '开始上传'}
+                {uploading ? 'Uploading...' : 'Start Upload'}
               </Button>
             </Space>
           </Card>
@@ -161,37 +161,37 @@ export default function ExcelUpload({ onUploadSuccess }) {
         {/* 右侧：格式说明 */}
         <Col xs={24} lg={10}>
           <Card 
-            title={<><FileExcelOutlined /> 文件格式要求</>}
+            title={<><FileExcelOutlined /> File Format Requirements</>}
             style={{ height: '100%' }}
           >
             <Alert
-              message="Excel 文件结构要求"
+              message="Excel File Structure Requirements"
               type="info"
               showIcon
               style={{ marginBottom: '16px' }}
             />
             
             <div style={{ marginBottom: '16px' }}>
-              <Text strong>必需列：</Text>
+              <Text strong>Required Columns:</Text>
               <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
-                <li><Text code>ID</Text> - 产品ID</li>
-                <li><Text code>Product Name</Text> - 产品名称</li>
-                <li><Text code>Opening Inventory</Text> - 期初库存</li>
+                <li><Text code>ID</Text> - Product ID</li>
+                <li><Text code>Product Name</Text> - Product Name</li>
+                <li><Text code>Opening Inventory</Text> - Opening Inventory</li>
               </ul>
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <Text strong>每天数据列：</Text>
+              <Text strong>Daily Data Columns:</Text>
               <ul style={{ marginTop: '8px', paddingLeft: '20px' }}>
-                <li><Text code>Procurement Qty (Day X)</Text> - 第X天采购数量</li>
-                <li><Text code>Procurement Price (Day X)</Text> - 第X天采购价格</li>
-                <li><Text code>Sales Qty (Day X)</Text> - 第X天销售数量</li>
-                <li><Text code>Sales Price (Day X)</Text> - 第X天销售价格</li>
+                <li><Text code>Procurement Qty (Day X)</Text> - Day X Procurement Quantity</li>
+                <li><Text code>Procurement Price (Day X)</Text> - Day X Procurement Price</li>
+                <li><Text code>Sales Qty (Day X)</Text> - Day X Sales Quantity</li>
+                <li><Text code>Sales Price (Day X)</Text> - Day X Sales Price</li>
               </ul>
             </div>
 
             <Alert
-              message="示例数据"
+              message="Sample Data"
               description={
                 <Text code style={{ fontSize: '12px' }}>
                   0000001,CHERRY 1PACK,117,0,$0.00,21,$13.72...
@@ -208,13 +208,13 @@ export default function ExcelUpload({ onUploadSuccess }) {
       {/* 上传结果显示 */}
       {result && (
         <Card 
-          title={<><CheckCircleOutlined style={{ color: '#52c41a' }} /> 上传结果</>}
+          title={<><CheckCircleOutlined style={{ color: '#52c41a' }} /> Upload Result</>}
           style={{ marginTop: '24px' }}
         >
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={8}>
               <Statistic
-                title="导入产品数量"
+                title="Imported Products Count"
                 value={result.products_count}
                 prefix={<DatabaseOutlined />}
                 valueStyle={{ color: '#1890ff' }}
@@ -222,7 +222,7 @@ export default function ExcelUpload({ onUploadSuccess }) {
             </Col>
             <Col xs={24} sm={8}>
               <Statistic
-                title="导入数据条数"
+                title="Imported Data Records"
                 value={result.days_count}
                 prefix={<FileExcelOutlined />}
                 valueStyle={{ color: '#52c41a' }}
@@ -230,8 +230,8 @@ export default function ExcelUpload({ onUploadSuccess }) {
             </Col>
             <Col xs={24} sm={8}>
               <Statistic
-                title="处理状态"
-                value="成功"
+                title="Processing Status"
+                value="Success"
                 prefix={<CheckCircleOutlined />}
                 valueStyle={{ color: '#52c41a' }}
               />
@@ -241,8 +241,8 @@ export default function ExcelUpload({ onUploadSuccess }) {
           <Divider />
           
           <Alert
-            message="导入成功！"
-            description="数据已成功导入数据库，您可以在仪表板中查看和分析这些数据。产品列表已自动刷新。"
+            message="Import Successful!"
+            description="Data has been successfully imported into the database. You can view and analyze this data in the dashboard. The product list has been automatically refreshed."
             type="success"
             showIcon
             closable
