@@ -1,92 +1,163 @@
 import { useState } from "react";
+import { Form, Input, Button, Card, Typography, Alert, Space, Divider } from 'antd';
+import { UserOutlined, LockOutlined, LoginOutlined } from '@ant-design/icons';
 import { login } from "../api";
 
-export default function Login({ onLogin }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+const { Title, Text } = Typography;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+export default function Login({ onLogin }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [form] = Form.useForm();
+
+  const handleSubmit = async (values) => {
     setError("");
     setLoading(true);
 
     try {
-      await login(username, password);
+      await login(values.username, values.password);
       onLogin(); // 通知父组件登录成功
-    } catch (err) {
-      setError("用户名或密码错误");
+    } catch {
+      setError("Invalid username or password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            登录您的账户
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            库存数据可视化系统
-          </p>
+    <div 
+      style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '20px'
+      }}
+    >
+      <Card 
+        style={{
+          width: '100%',
+          maxWidth: 400,
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          borderRadius: '16px',
+        }}
+        bodyStyle={{ padding: '40px' }}
+      >
+        {/* 头部标题区域 */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <div 
+            style={{
+              width: '64px',
+              height: '64px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px',
+              fontSize: '28px'
+            }}
+          >
+            📊
+          </div>
+          <Title level={2} style={{ margin: '0 0 8px', color: '#1f2937' }}>
+            Welcome Back
+          </Title>
+          <Text type="secondary">
+            Inventory Data Visualization System
+          </Text>
         </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="username" className="sr-only">
-                用户名
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="用户名"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                密码
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="密码"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
 
-          {error && (
-            <div className="text-red-600 text-sm text-center">{error}</div>
-          )}
+        {/* 错误提示 */}
+        {error && (
+          <Alert
+            message={error}
+            type="error"
+            showIcon
+            style={{ marginBottom: '24px' }}
+            closable
+            onClose={() => setError('')}
+          />
+        )}
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+        {/* 登录表单 */}
+        <Form
+          form={form}
+          name="login"
+          onFinish={handleSubmit}
+          autoComplete="off"
+          size="large"
+          layout="vertical"
+        >
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter username!',
+              },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined style={{ color: '#9ca3af' }} />}
+              placeholder="Username"
+              style={{ borderRadius: '8px' }}
+            />
+          </Form.Item>
+
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter password!',
+              },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined style={{ color: '#9ca3af' }} />}
+              placeholder="Password"
+              style={{ borderRadius: '8px' }}
+            />
+          </Form.Item>
+
+          <Form.Item style={{ marginBottom: '16px' }}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              block
+              size="large"
+              icon={<LoginOutlined />}
+              style={{
+                height: '48px',
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                border: 'none',
+                fontSize: '16px',
+                fontWeight: '500'
+              }}
             >
-              {loading ? "登录中..." : "登录"}
-            </button>
-          </div>
-          
-          <div className="text-center text-sm text-gray-600">
-            <p>默认管理员账户：admin / admin123</p>
-          </div>
-        </form>
-      </div>
+              {loading ? 'Logging in...' : 'Login'}
+            </Button>
+          </Form.Item>
+        </Form>
+
+        {/* 分割线和提示信息 */}
+        <Divider style={{ margin: '24px 0 16px' }} />
+        
+        <div style={{ textAlign: 'center' }}>
+          <Space direction="vertical" size={4}>
+            <Text type="secondary" style={{ fontSize: '13px' }}>
+              Default Admin Account
+            </Text>
+            <Text code style={{ fontSize: '12px' }}>
+              Username: admin  Password: admin123
+            </Text>
+          </Space>
+        </div>
+      </Card>
     </div>
   );
 }
