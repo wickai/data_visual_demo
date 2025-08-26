@@ -261,29 +261,6 @@ function App() {
         )}
       </div>
 
-      {/* Data Statistics Summary */}
-      {!compareMode && chartData.length > 0 && (
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-blue-800 mb-1">Average Inventory</h3>
-            <p className="text-2xl font-bold text-blue-900">
-              {Math.round(chartData.reduce((sum, day) => sum + day.inventory, 0) / chartData.length)}
-            </p>
-          </div>
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-green-800 mb-1">Total Procurement Amount</h3>
-            <p className="text-2xl font-bold text-green-900">
-              ${chartData.reduce((sum, day) => sum + day.procurement, 0).toFixed(2)}
-            </p>
-          </div>
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-orange-800 mb-1">Total Sales Amount</h3>
-            <p className="text-2xl font-bold text-orange-900">
-              ${chartData.reduce((sum, day) => sum + day.sales, 0).toFixed(2)}
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 
