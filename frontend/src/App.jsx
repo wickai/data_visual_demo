@@ -1,9 +1,43 @@
 import { useEffect, useState } from "react";
+import { Flex, Layout } from 'antd';
 import ProductChart from "./components/ProductChart";
 import Login from "./components/Login";
 import ExcelUpload from "./components/ExcelUpload";
 import Navigation from "./components/Navigation";
 import { getProducts, getProduct, compareProducts, getCurrentUser } from "./api";
+
+const { Header, Content, Footer, Sider } = Layout;
+
+// Ant Design Layout 样式配置
+const layoutStyle = {
+  minHeight: '100vh',
+};
+
+const siderStyle = {
+  background: '#fff',
+  borderRight: '1px solid #f0f0f0',
+};
+
+const headerStyle = {
+  background: '#fff',
+  borderBottom: '1px solid #f0f0f0',
+  padding: '0 24px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+};
+
+const contentStyle = {
+  margin: '0',
+  minHeight: 'auto',
+  background: '#f5f5f5',
+};
+
+const footerStyle = {
+  textAlign: 'center',
+  background: '#fff',
+  borderTop: '1px solid #f0f0f0',
+};
 
 function App() {
   // 认证状态
@@ -130,7 +164,7 @@ function App() {
   const renderDashboard = () => (
     <div className="p-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold mb-4">📊 数据可视化仪表板</h1>
+        {/* <h1 className="text-2xl font-bold mb-4">📊 数据可视化仪表板</h1> */}
         
         {/* 模式切换按钮 */}
         <div className="mb-4">
@@ -227,30 +261,6 @@ function App() {
           )
         )}
       </div>
-
-      {/* 数据统计摘要 */}
-      {!compareMode && chartData.length > 0 && (
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-blue-800 mb-1">平均库存</h3>
-            <p className="text-2xl font-bold text-blue-900">
-              {Math.round(chartData.reduce((sum, day) => sum + day.inventory, 0) / chartData.length)}
-            </p>
-          </div>
-          <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-green-800 mb-1">总采购金额</h3>
-            <p className="text-2xl font-bold text-green-900">
-              ${chartData.reduce((sum, day) => sum + day.procurement, 0).toFixed(2)}
-            </p>
-          </div>
-          <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-orange-800 mb-1">总销售金额</h3>
-            <p className="text-2xl font-bold text-orange-900">
-              ${chartData.reduce((sum, day) => sum + day.sales, 0).toFixed(2)}
-            </p>
-          </div>
-        </div>
-      )}
     </div>
   );
 
@@ -266,16 +276,37 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navigation 
-        currentPage={currentPage} 
-        onPageChange={setCurrentPage} 
-        user={user}
-      />
-      <main className="max-w-7xl mx-auto">
-        {renderContent()}
-      </main>
-    </div>
+    <Flex>
+      <Layout style={layoutStyle}>
+        <Sider width="25%" style={siderStyle}>
+          <Navigation 
+            currentPage={currentPage} 
+            onPageChange={setCurrentPage} 
+            user={user}
+          />
+        </Sider>
+        <Layout>
+          <Header style={headerStyle}>
+            <div>
+              <h1 className="text-xl font-bold text-gray-900 m-0">
+                {currentPage === 'dashboard' ? '📊 数据可视化仪表板' : '📁 数据导入'}
+              </h1>
+            </div>
+            <div className="text-sm text-gray-600">
+              欢迎, {user?.username || 'User'}
+            </div>
+          </Header>
+          <Content style={contentStyle}>
+            <div className="p-6">
+              {renderContent()}
+            </div>
+          </Content>
+          <Footer style={footerStyle}>
+            © 2024 数据可视化平台 - 由 AI 助手构建
+          </Footer>
+        </Layout>
+      </Layout>
+    </Flex>
   );
 }
 

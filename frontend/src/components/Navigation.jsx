@@ -1,4 +1,8 @@
+import { Menu, Avatar, Typography, Space, Button, Divider } from 'antd';
+import { DashboardOutlined, UploadOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { clearToken } from "../api";
+
+const { Text } = Typography;
 
 export default function Navigation({ currentPage, onPageChange, user }) {
   const handleLogout = () => {
@@ -6,73 +10,91 @@ export default function Navigation({ currentPage, onPageChange, user }) {
     window.location.reload();
   };
 
-  const navItems = [
-    { id: 'dashboard', label: '📊 仪表板', icon: '📊' },
-    { id: 'upload', label: '📁 数据导入', icon: '📁' },
+  const menuItems = [
+    {
+      key: 'dashboard',
+      icon: <DashboardOutlined />,
+      label: '仪表板',
+    },
+    {
+      key: 'upload',
+      icon: <UploadOutlined />,
+      label: '数据导入',
+    },
   ];
 
+  const handleMenuClick = ({ key }) => {
+    onPageChange(key);
+  };
+
   return (
-    <nav className="bg-white shadow-sm border-b">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <h1 className="text-xl font-bold text-gray-900">📈 库存数据可视化</h1>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => onPageChange(item.id)}
-                  className={`${
-                    currentPage === item.id
-                      ? 'border-indigo-500 text-gray-900'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  } whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm inline-flex items-center`}
-                >
-                  <span className="mr-2">{item.icon}</span>
-                  {item.label}
-                </button>
-              ))}
-            </div>
+    <div className="h-full flex flex-col">
+      {/* 顶部Logo区域 */}
+      <div className="p-4 border-b border-gray-200">
+        <Space align="center">
+          <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <span className="text-white text-lg font-bold">📈</span>
           </div>
-          
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <span className="text-sm text-gray-700 mr-4">
-                欢迎, {user?.username || 'User'}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                <span className="sr-only">退出登录</span>
-                🚪 退出
-              </button>
-            </div>
+          <div>
+            <Text strong className="text-lg">库存可视化</Text>
+            <br />
+            <Text type="secondary" className="text-xs">数据分析平台</Text>
           </div>
-        </div>
+        </Space>
       </div>
-      
-      {/* 移动端菜单 */}
-      <div className="sm:hidden">
-        <div className="pt-2 pb-3 space-y-1">
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => onPageChange(item.id)}
-              className={`${
-                currentPage === item.id
-                  ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
-                  : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800'
-              } block pl-3 pr-4 py-2 border-l-4 text-base font-medium w-full text-left`}
+
+      {/* 导航菜单 */}
+      <div className="flex-1">
+        <Menu
+          mode="inline"
+          selectedKeys={[currentPage]}
+          items={menuItems}
+          onClick={handleMenuClick}
+          style={{ 
+            border: 'none', 
+            background: 'transparent',
+            padding: '16px 0'
+          }}
+        />
+      </div>
+
+      {/* 底部用户信息 */}
+      <div className="p-4 border-t border-gray-200 space-y-3">
+        {/* 用户信息 */}
+        <div className="bg-gray-50 rounded-lg p-3">
+          <Space>
+            <Avatar 
+              size="small" 
+              icon={<UserOutlined />} 
+              style={{ backgroundColor: '#1890ff' }}
             >
-              <span className="mr-2">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
+              {user?.username?.charAt(0)?.toUpperCase()}
+            </Avatar>
+            <div>
+              <Text strong className="text-sm">
+                {user?.username || 'User'}
+              </Text>
+              <br />
+              <Text type="secondary" className="text-xs">
+                {user?.email || '用户'}
+              </Text>
+            </div>
+          </Space>
         </div>
+        
+        <Divider style={{ margin: '8px 0' }} />
+        
+        {/* 退出按钮 */}
+        <Button
+          type="text"
+          danger
+          icon={<LogoutOutlined />}
+          onClick={handleLogout}
+          className="w-full text-left"
+        >
+          退出登录
+        </Button>
       </div>
-    </nav>
+    </div>
   );
 }
